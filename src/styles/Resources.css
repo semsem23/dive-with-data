@@ -1,0 +1,72 @@
+.resources-page {
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  background-color: #f9f9f9; /* Light background for a cleaner look */
+  color: #333; /* Neutral text color for readability */
+}
+
+.resources-page h1 {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 30px;
+  color: #002855; /* Dark blue for branding */
+}
+
+.resources-section {
+  margin-bottom: 40px;
+  background: #ffffff; /* White background for contrast */
+  border: 1px solid #ddd; /* Subtle border for structure */
+  border-radius: 10px; /* Rounded corners for a modern look */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for elevation */
+  padding: 20px;
+}
+
+.resources-section h2 {
+  font-size: 1.5rem;
+  color: #002855; /* Match the title color with the main theme */
+  margin-bottom: 15px;
+  border-bottom: 2px solid #ccc; /* Underline for clear section separation */
+  padding-bottom: 5px;
+}
+
+.resources-section ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.resources-section li {
+  margin: 10px 0; /* Increase spacing between items */
+}
+
+.resources-section a {
+  color: #007BFF; /* Bright blue for clickable links */
+  text-decoration: none;
+  font-weight: bold; /* Emphasize the links */
+}
+
+.resources-section a:hover {
+  text-decoration: underline;
+  color: #0056b3; /* Slightly darker hover color */
+}
+
+/* Button styles for download links */
+.resources-section .download-button {
+  display: inline-block;
+  padding: 10px 15px;
+  background-color: #007BFF; /* Bright blue for buttons */
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.resources-section .download-button:hover {
+  background-color: #0056b3; /* Darker blue on hover */
+  transform: translateY(-2px); /* Subtle lift effect */
+}
+
+.resources-section .download-icon {
+  margin-right: 5px;
+  vertical-align: middle; /* Align the icon with text */
+}

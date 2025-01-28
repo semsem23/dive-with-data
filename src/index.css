@@ -1,0 +1,165 @@
+/* Global Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: auto; /* Allow natural scrolling for full content visibility */
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Ensure the body spans the full height of the viewport */
+}
+
+/* Header */
+header {
+  height: 60px;
+  background-color: #002855; /* Header background */
+  color: white;
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  box-sizing: border-box;
+  border-left: 1px solid #ddd; /* Matches sidebar border */
+}
+
+/* Main Section */
+main {
+  display: flex;
+  flex: 1;
+  overflow: visible; /* Ensure content is fully visible */
+}
+
+/* Sidebar */
+.sidebar {
+  width: 320px; /* Adjust width to fit filters properly */
+  background-color: #f5f5f5;
+  border-right: 1px solid #ddd;
+  display: flex;
+  flex-direction: column;
+  padding: 20px; /* Add padding for better layout */
+  box-sizing: border-box;
+  min-height: calc(100vh - 60px - 40px); /* Full height minus header and footer */
+}
+
+/* Main Content */
+.content {
+  flex: 1;
+  padding: 20px;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+}
+
+
+/* Footer styles */
+
+/* KPI Block */
+.kpi-block {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap; /* Allows wrapping to prevent overflow */
+  margin-bottom: 40px; /* Added space below KPI block */
+}
+
+/* Chart Block */
+.chart-block {
+  display: flex;
+  flex-direction: column;
+  gap: 20px; /* Space between rows */
+}
+
+
+.kpi-box {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  flex: 1 1 220px; /* Ensures responsiveness */
+  min-width: 200px; /* Prevents boxes from shrinking too small */
+}
+
+.row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px; /* Space between columns */
+  width: 100%;
+}
+
+.chart-container {
+  padding: 10px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  overflow: hidden; /* Prevent scrolling within chart boxes */
+  max-width: 100%;
+
+}
+
+/* Filters */
+.filter-block {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.dropdown-container, .toggle-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Button Styling */
+.clear-button {
+  padding: 10px 15px;
+  background-color: #f44336;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.clear-button:hover {
+  background-color: #d32f2f;
+}
+
+
+
+/* Media Queries for Responsiveness */
+@media (max-width: 768px) {
+  header, footer {
+    height: 50px;
+  }
+
+  .sidebar {
+    width: 100%;
+    height: auto;
+    margin-bottom: 20px;
+  }
+
+  main {
+    flex-direction: column;
+  }
+
+  .kpi-block {
+    flex-wrap: wrap;
+  }
+
+  .chart-block {
+    grid-template-columns: 1fr; /* Stack charts vertically */
+  }
+}

@@ -1,0 +1,27 @@
+.kpi-container {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    padding: 20px;
+    gap: 20px;
+  }
+  
+  .kpi-box {
+    background-color: #f0f0f0;
+    padding: 20px;
+    border-radius: 8px;
+    width: 200px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .kpi-box h2 {
+    margin: 0;
+    font-size: 1.5em;
+  }
+  
+  .kpi-box p {
+    font-size: 1.2em;
+    margin-top: 10px;
+  }
+  

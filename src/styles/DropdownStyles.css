@@ -1,0 +1,40 @@
+/* Dropdown container styles */
+.dropdown-container {
+    margin-bottom: 20px;
+  }
+  
+  /* Label styling */
+  .dropdown-container label {
+    font-size: 16px;
+    font-weight: bold;
+    margin-right: 10px;
+  }
+  
+  /* Dropdown select box styling */
+  .dropdown-container select {
+    width: 200px;
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+    font-size: 16px;
+    outline: none;
+    transition: all 0.3s ease;
+  }
+  
+  /* Hover and focus effects for the select box */
+  .dropdown-container select:hover {
+    border-color: #007bff;
+  }
+  
+  .dropdown-container select:focus {
+    border-color: #007bff;
+    background-color: #e9f7ff;
+  }
+  
+  /* Style for the dropdown option text */
+  .dropdown-container select option {
+    font-size: 16px;
+    padding: 10px;
+  }
+  

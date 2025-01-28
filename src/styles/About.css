@@ -1,0 +1,48 @@
+.about-container {
+    padding: 2rem;
+    max-width: 800px;
+    margin: 0 auto;
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    color: #333;
+  }
+  
+  .about-container h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: #007BFF;
+  }
+  
+  .about-container h2 {
+    font-size: 1.8rem;
+    margin-top: 2rem;
+    margin-bottom: 0.5rem;
+    color: #0056b3;
+  }
+  
+  .about-container p {
+    margin-bottom: 1rem;
+  }
+  
+  .team-list {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .team-list li {
+    margin-bottom: 0.5rem;
+  }
+  
+  .team-list strong {
+    color: #007BFF;
+  }
+  
+  .about-container a {
+    color: #007BFF;
+    text-decoration: none;
+  }
+  
+  .about-container a:hover {
+    text-decoration: underline;
+  }
+  
