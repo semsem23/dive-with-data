@@ -4,13 +4,25 @@ import ReactApexChart from 'react-apexcharts';
 const HeatMapComponent = ({ isOverseas, selectedRegion, selectedDepartment, selectedCity }) => {
   const [data, setData] = useState([]);
   const [chartOptions, setChartOptions] = useState({ series: [] });
-
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  
   useEffect(() => {
-    fetch('/exported_data.json')
-      .then((response) => response.json())
-      .then((data) => setData(data))
-      .catch((error) => console.error('Error fetching data:', error));
-  }, []);
+      const fetchData = async () => {
+        try {
+          const response = await fetch('/dive-with-data/exported_data.json')
+          const result = await response.json();
+          setData(result);
+        } catch (error) {
+          console.error('Error fetching data:', error);
+          setError(error);
+        } finally {
+          setLoading(false);
+        }
+      };
+  
+      fetchData();
+    }, []);
 
   useEffect(() => {
     const updateChartOptions = () => {

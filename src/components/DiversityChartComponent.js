@@ -10,7 +10,7 @@ const DiversityChartComponent = ({ isOverseas, selectedRegion, selectedDepartmen
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('/exported_data.json');
+        const response = await fetch('/dive-with-data/exported_data.json')
         const result = await response.json();
         setData(result);
       } catch (error) {

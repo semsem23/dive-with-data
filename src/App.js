@@ -29,7 +29,7 @@ const App = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('/exported_data.json');
+        const response = await fetch('/dive-with-data/exported_data.json')
         if (!response.ok) throw new Error('Network response was not ok');
         const jsonData = await response.json();
         setData(jsonData);
@@ -89,7 +89,7 @@ const App = () => {
   }, [openDropdown]);
 
   return (
-    <Router>
+    <Router basename="/dive-with-data">
       <div className="App">
         {/* Navigation Bar */}
         <nav className="nav">
@@ -128,7 +128,8 @@ const App = () => {
 
         {/* Routes */}
         <Routes>
-          <Route path="/" element={<Welcome />} />
+          {/* Catch-all Route */}
+          <Route path="*" element={<Welcome />} />
           <Route
             path="/placeOfWorship"
             element={
@@ -147,7 +148,7 @@ const App = () => {
         </Routes>
 
         {/* Footer */}
-        <footer className="footer">© {new Date().getFullYear()} Dashboard Inc.</footer>
+        <footer className="footer">© {new Date().getFullYear()} PoW Inc.</footer>
       </div>
     </Router>
   );

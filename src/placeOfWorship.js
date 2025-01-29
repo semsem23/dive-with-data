@@ -6,7 +6,7 @@ import BarChartComponent from './components/BarChartComponent';
 import HeatMapComponent from './components/HeatMapComponent';
 import DiversityChartComponent from './components/DiversityChartComponent';
 import { FilterProvider } from './contexts/FilterContext';
-import { Route, Routes } from 'react-router-dom'; // Removed Router import
+//import { Route, Routes } from 'react-router-dom'; // Removed Router import
 
 
 const PlaceOfWorship = ({ data }) => {
