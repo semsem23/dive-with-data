@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/placeOfWorship/static/css/main.a2ef9fe5.css",
-    "main.js": "/placeOfWorship/static/js/main.e6405a34.js",
-    "static/js/453.64512fd7.chunk.js": "/placeOfWorship/static/js/453.64512fd7.chunk.js",
-    "index.html": "/placeOfWorship/index.html",
-    "main.a2ef9fe5.css.map": "/placeOfWorship/static/css/main.a2ef9fe5.css.map",
-    "main.e6405a34.js.map": "/placeOfWorship/static/js/main.e6405a34.js.map",
-    "453.64512fd7.chunk.js.map": "/placeOfWorship/static/js/453.64512fd7.chunk.js.map"
+    "main.css": "/dive-with-data/static/css/main.a2ef9fe5.css",
+    "main.js": "/dive-with-data/static/js/main.c62d71dd.js",
+    "static/js/453.64512fd7.chunk.js": "/dive-with-data/static/js/453.64512fd7.chunk.js",
+    "index.html": "/dive-with-data/index.html",
+    "main.a2ef9fe5.css.map": "/dive-with-data/static/css/main.a2ef9fe5.css.map",
+    "main.c62d71dd.js.map": "/dive-with-data/static/js/main.c62d71dd.js.map",
+    "453.64512fd7.chunk.js.map": "/dive-with-data/static/js/453.64512fd7.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.a2ef9fe5.css",
-    "static/js/main.e6405a34.js"
+    "static/js/main.c62d71dd.js"
   ]
 }
