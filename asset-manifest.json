@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/dive-with-data/static/css/main.a2ef9fe5.css",
-    "main.js": "/dive-with-data/static/js/main.c62d71dd.js",
+    "main.js": "/dive-with-data/static/js/main.12f03fa2.js",
     "static/js/453.64512fd7.chunk.js": "/dive-with-data/static/js/453.64512fd7.chunk.js",
     "index.html": "/dive-with-data/index.html",
     "main.a2ef9fe5.css.map": "/dive-with-data/static/css/main.a2ef9fe5.css.map",
-    "main.c62d71dd.js.map": "/dive-with-data/static/js/main.c62d71dd.js.map",
+    "main.12f03fa2.js.map": "/dive-with-data/static/js/main.12f03fa2.js.map",
     "453.64512fd7.chunk.js.map": "/dive-with-data/static/js/453.64512fd7.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.a2ef9fe5.css",
-    "static/js/main.c62d71dd.js"
+    "static/js/main.12f03fa2.js"
   ]
 }
