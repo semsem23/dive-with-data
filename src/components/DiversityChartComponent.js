@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useEffect, useState, useMemo, useCallback } from 'react';
 import Chart from 'react-apexcharts';
 import { sum, log } from 'mathjs';
 
@@ -10,7 +10,8 @@ const DiversityChartComponent = ({ isOverseas, selectedRegion, selectedDepartmen
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('/dive-with-data/exported_data.json')
+        const response = await fetch('/dive-with-data/exported_data.json');
+        if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
         const result = await response.json();
         setData(result);
       } catch (error) {
@@ -33,7 +34,7 @@ const DiversityChartComponent = ({ isOverseas, selectedRegion, selectedDepartmen
     );
   }, [isOverseas, selectedRegion, selectedDepartment, selectedCity, data]);
 
-  const processDiversityData = (data) => {
+  const processDiversityData = useCallback((data) => {
     const regionGroups = data.reduce((acc, cur) => {
       const region = selectedCity 
         ? cur.Details.City 
@@ -63,9 +64,9 @@ const DiversityChartComponent = ({ isOverseas, selectedRegion, selectedDepartmen
     });
 
     return diversityData.sort((a, b) => a.diversityIndex - b.diversityIndex);
-  };
+  }, [selectedCity, selectedRegion]);
 
-  const processedData = useMemo(() => processDiversityData(filteredData), [filteredData]);
+  const processedData = useMemo(() => processDiversityData(filteredData), [filteredData, processDiversityData]);
 
   const chartData = useMemo(() => ({
     series: [{
@@ -81,7 +82,7 @@ const DiversityChartComponent = ({ isOverseas, selectedRegion, selectedDepartmen
         type: 'bar',
         height: 350,
         toolbar: {
-          show: false // This hides the entire toolbar including zoom, pan, and menu options
+          show: false
         }
       },
       plotOptions: {
@@ -126,7 +127,7 @@ const DiversityChartComponent = ({ isOverseas, selectedRegion, selectedDepartmen
         }
       }
     }
-  }), [processedData, selectedRegion, selectedCity]);
+  }), [processedData, isOverseas]);
 
   if (loading) {
     return <div>Loading...</div>;
@@ -142,8 +143,7 @@ const DiversityChartComponent = ({ isOverseas, selectedRegion, selectedDepartmen
 
   return (
     <div>
-      {/* <h2>Diversity of Places of Worship by Region in France</h2> */}
-      <Chart options={chartData.options} series={chartData.series} type="bar" height={350} width={500} />
+      <Chart options={chartData.options} series={chartData.series} type="bar" height={350} width="100%" />
     </div>
   );
 };

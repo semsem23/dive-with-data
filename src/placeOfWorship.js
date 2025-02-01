@@ -6,7 +6,6 @@ import BarChartComponent from './components/BarChartComponent';
 import HeatMapComponent from './components/HeatMapComponent';
 import DiversityChartComponent from './components/DiversityChartComponent';
 import { FilterProvider } from './contexts/FilterContext';
-//import { Route, Routes } from 'react-router-dom'; // Removed Router import
 
 
 const PlaceOfWorship = ({ data }) => {
@@ -18,11 +17,7 @@ const PlaceOfWorship = ({ data }) => {
   const [regions, setRegions] = useState([]);
   const [departments, setDepartments] = useState([]);
   const [cities, setCities] = useState([]);
-  const [openDropdown, setOpenDropdown] = useState(null);
 
-  const toggleDropdown = (dropdown) => {
-    setOpenDropdown((prevState) => (prevState === dropdown ? null : dropdown));
-  };
 
   const filteredData = useMemo(() => {
     const countryFiltered = selectedCountry
@@ -59,7 +54,7 @@ const PlaceOfWorship = ({ data }) => {
       setDepartments([...new Set(filteredDepartments)]);
       if (!filteredDepartments.includes(selectedDepartment)) setSelectedDepartment('');
     }
-  }, [selectedRegion, filteredData]);
+  }, [selectedRegion, filteredData, selectedDepartment]); // Include `selectedDepartment`
 
   useEffect(() => {
     if (selectedDepartment) {
@@ -69,7 +64,7 @@ const PlaceOfWorship = ({ data }) => {
       setCities([...new Set(filteredCities)]);
       if (!filteredCities.includes(selectedCity)) setSelectedCity('');
     }
-  }, [selectedDepartment, filteredData]);
+  }, [selectedDepartment, filteredData, selectedCity]); // Include `selectedCity`
 
   const kpis = useKPIs(filteredData);
 
@@ -157,7 +152,10 @@ const PlaceOfWorship = ({ data }) => {
                   />
                 </div>
                 <div className="chart-container">
-                  <BarChartComponent isOverseas={isOverseas} filteredData={filteredData} />
+                  <BarChartComponent isOverseas={isOverseas}
+                    selectedRegion={selectedRegion}
+                    selectedDepartment={selectedDepartment}
+                    selectedCity={selectedCity} />
                 </div>
               </div>
               <div className="row" style={{ marginBottom: '3rem' }}>

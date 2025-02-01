@@ -4,25 +4,20 @@ import ReactApexChart from 'react-apexcharts';
 const BubbleChartComponent = ({ isOverseas, selectedRegion, selectedDepartment, selectedCity }) => {
   const [data, setData] = useState([]);
   const [chartOptions, setChartOptions] = useState({ series: [] });
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  
+
   useEffect(() => {
-      const fetchData = async () => {
-        try {
-          const response = await fetch('/dive-with-data/exported_data.json')
-          const result = await response.json();
-          setData(result);
-        } catch (error) {
-          console.error('Error fetching data:', error);
-          setError(error);
-        } finally {
-          setLoading(false);
-        }
-      };
-  
-      fetchData();
-    }, []);
+    const fetchData = async () => {
+      try {
+        const response = await fetch('/dive-with-data/exported_data.json');
+        const result = await response.json();
+        setData(result);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   useEffect(() => {
     const updateChartOptions = () => {
@@ -80,19 +75,15 @@ const BubbleChartComponent = ({ isOverseas, selectedRegion, selectedDepartment, 
         }),
       })).filter((s) => s.data.some((point) => point.y !== null));
 
-      const maxCount = Math.max(...series.flatMap((s) => s.data.map((point) => point.y || 0)));
-
       setChartOptions({
         series: series,
         chart: {
           type: 'scatter',
           height: 350,
           toolbar: {
-            show: false // This hides the entire toolbar including zoom, pan, and menu options
+            show: false
           }
         },
-        //xaxis: { categories: uniqueDenominations , title: { text: 'Denomination Grouped' } }, 
-        //yaxis: {  title: { text: '' }, max: Math.ceil(maxCount * 1.1), tickAmount: 5 }, 
         colors: ['#008FFB', '#FF4560', '#775DD0', '#00E396', '#FEB019', '#808080'],
         legend: { show: true, position: 'bottom', horizontalAlign: 'center' },
         tooltip: { y: { formatter: (val) => (val !== null ? `${val}` : 'No Data') } },
@@ -102,7 +93,6 @@ const BubbleChartComponent = ({ isOverseas, selectedRegion, selectedDepartment, 
           align: 'center',
         },
       });
-      
     };
 
     updateChartOptions();
@@ -112,8 +102,7 @@ const BubbleChartComponent = ({ isOverseas, selectedRegion, selectedDepartment, 
 
   return (
     <div>
-      {/* <h2>Distribution of Places of Worship by Religion - Bubble Chart</h2>*/}
-      <ReactApexChart options={chartOptions} series={chartOptions.series} type="scatter" height={350} width={500} />
+      <ReactApexChart options={chartOptions} series={chartOptions.series} type="scatter" height={350} width="100%" />
     </div>
   );
 };
