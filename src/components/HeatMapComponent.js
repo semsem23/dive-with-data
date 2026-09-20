@@ -1,24 +1,7 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import ReactApexChart from 'react-apexcharts';
 
-const HeatMapComponent = ({ isOverseas, selectedRegion, selectedDepartment, selectedCity }) => {
-  const [data, setData] = useState([]);
-  const [chartOptions, setChartOptions] = useState({ series: [] });
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch('/dive-with-data/exported_data.json');
-        const result = await response.json();
-        setData(result);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
-
-    fetchData();
-  }, []);
-
+const HeatMapComponent = ({ data, isOverseas, selectedRegion, selectedDepartment, selectedCity }) => {
   const computedOptions = useMemo(() => {
     if (!data.length) return null;
 
@@ -29,9 +12,9 @@ const HeatMapComponent = ({ isOverseas, selectedRegion, selectedDepartment, sele
     );
 
     const finalData = filteredData.filter(item =>
-      (!selectedRegion || item.Details.Region === selectedRegion) &&
-      (!selectedDepartment || item.Details.Department_Name === selectedDepartment) &&
-      (!selectedCity || item.Details.City === selectedCity)
+      (!selectedRegion || item.Details?.Region === selectedRegion) &&
+      (!selectedDepartment || item.Details?.Department_Name === selectedDepartment) &&
+      (!selectedCity || item.Details?.City === selectedCity)
     );
 
     const regionMap = {};
@@ -39,10 +22,10 @@ const HeatMapComponent = ({ isOverseas, selectedRegion, selectedDepartment, sele
 
     finalData.forEach(item => {
       const region = selectedCity
-        ? item.Details.City
-        : selectedRegion ? item.Details.Department_Name : item.Details.Region;
+        ? item.Details?.City
+        : selectedRegion ? item.Details?.Department_Name : item.Details?.Region;
 
-      item.Details.Religious_Data.forEach(religiousItem => {
+      (item.Details?.Religious_Data || []).forEach(religiousItem => {
         const religion = religiousItem.Religion_Grouped;
         const count = religiousItem.Count;
         allReligions.add(religion);

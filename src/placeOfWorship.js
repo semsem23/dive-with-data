@@ -5,7 +5,6 @@ import BubbleChartComponent from './components/BubbleChartComponent';
 import BarChartComponent from './components/BarChartComponent';
 import HeatMapComponent from './components/HeatMapComponent';
 import DiversityChartComponent from './components/DiversityChartComponent';
-import { FilterProvider } from './contexts/FilterContext';
 
 
 const PlaceOfWorship = ({ data }) => {
@@ -19,52 +18,59 @@ const PlaceOfWorship = ({ data }) => {
   const [cities, setCities] = useState([]);
 
 
-  const filteredData = useMemo(() => {
-    const countryFiltered = selectedCountry
-      ? data.filter(item => item.Country === selectedCountry)
-      : data;
+  const countryFiltered = useMemo(() => (
+    selectedCountry ? data.filter(item => item.Country === selectedCountry) : data
+  ), [data, selectedCountry]);
 
-    const typeFiltered = countryFiltered.filter(item =>
+  const typeFiltered = useMemo(() => (
+    countryFiltered.filter(item =>
       isOverseas
         ? item.Location_Type === 'French Overseas Territories'
         : item.Location_Type === 'Metropolitan France'
-    );
+    )
+  ), [countryFiltered, isOverseas]);
 
-    const regionFiltered = selectedRegion
-      ? typeFiltered.filter(item => item.Details.Region === selectedRegion)
-      : typeFiltered;
+  const regionFiltered = useMemo(() => (
+    selectedRegion
+      ? typeFiltered.filter(item => item.Details?.Region === selectedRegion)
+      : typeFiltered
+  ), [typeFiltered, selectedRegion]);
 
-    const departmentFiltered = selectedDepartment
-      ? regionFiltered.filter(item => item.Details.Department_Name === selectedDepartment)
-      : regionFiltered;
+  const departmentFiltered = useMemo(() => (
+    selectedDepartment
+      ? regionFiltered.filter(item => item.Details?.Department_Name === selectedDepartment)
+      : regionFiltered
+  ), [regionFiltered, selectedDepartment]);
 
-    const cityFiltered = selectedCity
-      ? departmentFiltered.filter(item => item.Details.City === selectedCity)
-      : departmentFiltered;
-
-    setRegions([...new Set(typeFiltered.map(item => item.Details.Region))]);
-    return cityFiltered;
-  }, [data, isOverseas, selectedCountry, selectedRegion, selectedDepartment, selectedCity]);
-
-  useEffect(() => {
-    if (selectedRegion) {
-      const filteredDepartments = filteredData
-        .filter(item => item.Details.Region === selectedRegion)
-        .map(item => item.Details.Department_Name);
-      setDepartments([...new Set(filteredDepartments)]);
-      if (!filteredDepartments.includes(selectedDepartment)) setSelectedDepartment('');
-    }
-  }, [selectedRegion, filteredData, selectedDepartment]); // Include `selectedDepartment`
+  const filteredData = useMemo(() => (
+    selectedCity
+      ? departmentFiltered.filter(item => item.Details?.City === selectedCity)
+      : departmentFiltered
+  ), [departmentFiltered, selectedCity]);
 
   useEffect(() => {
-    if (selectedDepartment) {
-      const filteredCities = filteredData
-        .filter(item => item.Details.Department_Name === selectedDepartment)
-        .map(item => item.Details.City);
-      setCities([...new Set(filteredCities)]);
-      if (!filteredCities.includes(selectedCity)) setSelectedCity('');
+    setRegions([...new Set(typeFiltered.map(item => item.Details?.Region))]);
+  }, [typeFiltered]);
+
+  useEffect(() => {
+    // Derived from regionFiltered (not the fully-filtered data) so picking a
+    // department doesn't shrink this list down to just that one department.
+    const filteredDepartments = regionFiltered.map(item => item.Details?.Department_Name);
+    setDepartments([...new Set(filteredDepartments)]);
+    if (selectedDepartment && !filteredDepartments.includes(selectedDepartment)) {
+      setSelectedDepartment('');
     }
-  }, [selectedDepartment, filteredData, selectedCity]); // Include `selectedCity`
+  }, [regionFiltered, selectedDepartment]);
+
+  useEffect(() => {
+    // Derived from departmentFiltered (not the fully-filtered data) so picking a
+    // city doesn't shrink this list down to just that one city.
+    const filteredCities = departmentFiltered.map(item => item.Details?.City);
+    setCities([...new Set(filteredCities)]);
+    if (selectedCity && !filteredCities.includes(selectedCity)) {
+      setSelectedCity('');
+    }
+  }, [departmentFiltered, selectedCity]);
 
   const kpis = useKPIs(filteredData);
 
@@ -78,8 +84,7 @@ const PlaceOfWorship = ({ data }) => {
   const countries = [...new Set(data.map(item => item.Country))]; 
 
   return (
-    <FilterProvider>
-      <div className="App">
+    <div className="App">
 
 
         <main className="container">
@@ -145,6 +150,7 @@ const PlaceOfWorship = ({ data }) => {
               <div className="row">
                 <div className="chart-container">
                   <BubbleChartComponent
+                    data={countryFiltered}
                     isOverseas={isOverseas}
                     selectedRegion={selectedRegion}
                     selectedDepartment={selectedDepartment}
@@ -152,7 +158,9 @@ const PlaceOfWorship = ({ data }) => {
                   />
                 </div>
                 <div className="chart-container">
-                  <BarChartComponent isOverseas={isOverseas}
+                  <BarChartComponent
+                    data={countryFiltered}
+                    isOverseas={isOverseas}
                     selectedRegion={selectedRegion}
                     selectedDepartment={selectedDepartment}
                     selectedCity={selectedCity} />
@@ -161,6 +169,7 @@ const PlaceOfWorship = ({ data }) => {
               <div className="row" style={{ marginBottom: '3rem' }}>
                 <div className="chart-container">
                   <HeatMapComponent
+                    data={countryFiltered}
                     isOverseas={isOverseas}
                     selectedRegion={selectedRegion}
                     selectedDepartment={selectedDepartment}
@@ -169,6 +178,7 @@ const PlaceOfWorship = ({ data }) => {
                 </div>
                 <div className="chart-container">
                   <DiversityChartComponent
+                    data={countryFiltered}
                     isOverseas={isOverseas}
                     selectedRegion={selectedRegion}
                     selectedDepartment={selectedDepartment}
@@ -180,7 +190,6 @@ const PlaceOfWorship = ({ data }) => {
           </section>
         </main>
       </div>
-    </FilterProvider>
   );
 };
 

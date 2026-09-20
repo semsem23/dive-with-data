@@ -1,29 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import Chart from 'react-apexcharts';
 
-const BarChartComponent = ({ isOverseas, selectedRegion, selectedDepartment, selectedCity }) => {
-  const [data, setData] = useState([]);
+const BarChartComponent = ({ data, isOverseas, selectedRegion, selectedDepartment, selectedCity }) => {
   const [chartOptions, setChartOptions] = useState({ series: [] });
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  // Fetch data from JSON
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch('/dive-with-data/exported_data.json');
-        const result = await response.json();
-        setData(result);
-      } catch (err) {
-        setError('Error fetching data');
-        console.error('Error fetching data:', err);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchData();
-  }, []);
 
   // Update chart options based on filters
   useEffect(() => {
@@ -35,13 +14,13 @@ const BarChartComponent = ({ isOverseas, selectedRegion, selectedDepartment, sel
       );
 
       const finalFilteredData = filteredData.filter((item) =>
-        (!selectedRegion || item.Details.Region === selectedRegion) &&
-        (!selectedDepartment || item.Details.Department_Name === selectedDepartment) &&
-        (!selectedCity || item.Details.City === selectedCity)
+        (!selectedRegion || item.Details?.Region === selectedRegion) &&
+        (!selectedDepartment || item.Details?.Department_Name === selectedDepartment) &&
+        (!selectedCity || item.Details?.City === selectedCity)
       );
 
       const religionCounts = finalFilteredData.reduce((acc, item) => {
-        item.Details.Religious_Data.forEach((religiousItem) => {
+        (item.Details?.Religious_Data || []).forEach((religiousItem) => {
           const religion = religiousItem.Religion_Grouped;
           acc[religion] = (acc[religion] || 0) + (religiousItem.Count || 0);
         });
@@ -79,8 +58,7 @@ const BarChartComponent = ({ isOverseas, selectedRegion, selectedDepartment, sel
     }
   }, [data, isOverseas, selectedRegion, selectedDepartment, selectedCity]);
 
-  if (isLoading) return <div>Loading chart...</div>;
-  if (error) return <div>Error loading chart: {error}</div>;
+  if (!data.length) return <div>Loading chart...</div>;
   if (!chartOptions.series.length) return <div>No data available</div>;
 
   return (

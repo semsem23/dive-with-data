@@ -1,45 +1,23 @@
-import React, { useEffect, useState, useMemo, useCallback } from 'react';
+import React, { useMemo, useCallback } from 'react';
 import Chart from 'react-apexcharts';
 import { sum, log } from 'mathjs';
 
-const DiversityChartComponent = ({ isOverseas, selectedRegion, selectedDepartment, selectedCity }) => {
-  const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch('/dive-with-data/exported_data.json');
-        if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
-        const result = await response.json();
-        setData(result);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-        setError(error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, []);
-
+const DiversityChartComponent = ({ data, isOverseas, selectedRegion, selectedDepartment, selectedCity }) => {
   const filteredData = useMemo(() => {
     return data.filter(item =>
       (isOverseas ? item.Location_Type === 'French Overseas Territories' : item.Location_Type === 'Metropolitan France') &&
-      (!selectedRegion || item.Details.Region === selectedRegion) &&
-      (!selectedDepartment || item.Details.Department_Name === selectedDepartment) &&
-      (!selectedCity || item.Details.City === selectedCity)
+      (!selectedRegion || item.Details?.Region === selectedRegion) &&
+      (!selectedDepartment || item.Details?.Department_Name === selectedDepartment) &&
+      (!selectedCity || item.Details?.City === selectedCity)
     );
   }, [isOverseas, selectedRegion, selectedDepartment, selectedCity, data]);
 
   const processDiversityData = useCallback((data) => {
     const regionGroups = data.reduce((acc, cur) => {
-      const region = selectedCity 
-        ? cur.Details.City 
-        : (selectedRegion ? cur.Details.Department_Name : cur.Details.Region);
-      cur.Details.Religious_Data.forEach(religiousItem => {
+      const region = selectedCity
+        ? cur.Details?.City
+        : (selectedRegion ? cur.Details?.Department_Name : cur.Details?.Region);
+      (cur.Details?.Religious_Data || []).forEach(religiousItem => {
         const religion = religiousItem.Religion_Grouped;
         const count = religiousItem.Count;
 
@@ -129,12 +107,8 @@ const DiversityChartComponent = ({ isOverseas, selectedRegion, selectedDepartmen
     }
   }), [processedData, isOverseas]);
 
-  if (loading) {
+  if (!data.length) {
     return <div>Loading...</div>;
-  }
-
-  if (error) {
-    return <div>Error: {error.message}</div>;
   }
 
   if (processedData.length === 0) {

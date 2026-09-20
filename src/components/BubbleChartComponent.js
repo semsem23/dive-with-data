@@ -1,23 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import ReactApexChart from 'react-apexcharts';
 
-const BubbleChartComponent = ({ isOverseas, selectedRegion, selectedDepartment, selectedCity }) => {
-  const [data, setData] = useState([]);
+const BubbleChartComponent = ({ data, isOverseas, selectedRegion, selectedDepartment, selectedCity }) => {
   const [chartOptions, setChartOptions] = useState({ series: [] });
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch('/dive-with-data/exported_data.json');
-        const result = await response.json();
-        setData(result);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
-
-    fetchData();
-  }, []);
 
   useEffect(() => {
     const updateChartOptions = () => {
@@ -28,13 +13,13 @@ const BubbleChartComponent = ({ isOverseas, selectedRegion, selectedDepartment, 
       );
 
       const finalFilteredData = filteredData.filter((item) =>
-        (!selectedRegion || item.Details.Region === selectedRegion) &&
-        (!selectedDepartment || item.Details.Department_Name === selectedDepartment) &&
-        (!selectedCity || item.Details.City === selectedCity)
+        (!selectedRegion || item.Details?.Region === selectedRegion) &&
+        (!selectedDepartment || item.Details?.Department_Name === selectedDepartment) &&
+        (!selectedCity || item.Details?.City === selectedCity)
       );
 
       const religionCounts = finalFilteredData.reduce((acc, item) => {
-        item.Details.Religious_Data.forEach((religiousItem) => {
+        (item.Details?.Religious_Data || []).forEach((religiousItem) => {
           const religion = religiousItem.Religion_Grouped;
           acc[religion] = (acc[religion] || 0) + (religiousItem.Count || 0);
         });
@@ -48,7 +33,7 @@ const BubbleChartComponent = ({ isOverseas, selectedRegion, selectedDepartment, 
 
       const uniqueDenominations = Array.from(
         new Set(finalFilteredData.flatMap((item) =>
-          item.Details.Religious_Data.map((religiousItem) => religiousItem.Denomination_Grouped)
+          (item.Details?.Religious_Data || []).map((religiousItem) => religiousItem.Denomination_Grouped)
         ))
       );
 
@@ -57,7 +42,7 @@ const BubbleChartComponent = ({ isOverseas, selectedRegion, selectedDepartment, 
         data: uniqueDenominations.map((denomination) => {
           const matchingItems = finalFilteredData.filter(
             (item) =>
-              item.Details.Religious_Data.some(
+              (item.Details?.Religious_Data || []).some(
                 (religiousItem) =>
                   religiousItem.Denomination_Grouped === denomination &&
                   religiousItem.Religion_Grouped.toLowerCase() === religion.toLowerCase()
@@ -66,7 +51,7 @@ const BubbleChartComponent = ({ isOverseas, selectedRegion, selectedDepartment, 
           const totalCount = matchingItems.reduce(
             (sum, item) =>
               sum +
-              item.Details.Religious_Data.filter(
+              (item.Details?.Religious_Data || []).filter(
                 (religiousItem) => religiousItem.Denomination_Grouped === denomination
               ).reduce((innerSum, religiousItem) => innerSum + (religiousItem.Count || 0), 0),
             0

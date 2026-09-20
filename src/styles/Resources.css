@@ -12,6 +12,22 @@
   color: #002855; /* Dark blue for branding */
 }
 
+.resources-intro {
+  text-align: center;
+  font-size: 1.1rem;
+  margin-bottom: 30px;
+}
+
+.resources-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+}
+
+.resources-section-body {
+  padding-top: 15px;
+}
+
 .resources-section {
   margin-bottom: 40px;
   background: #ffffff; /* White background for contrast */
